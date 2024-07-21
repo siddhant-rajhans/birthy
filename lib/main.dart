@@ -14,25 +14,26 @@ void main() async {
   Hive.registerAdapter(BirthdayAdapter());
   await NotificationService.initialize();
   tz.initializeTimeZones();
-  runApp(const MyApp());
+  final birthdaysBox = await Hive.openBox<Birthday>('birthdays');
+  runApp(MyApp(birthdaysBox: birthdaysBox));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final Box<Birthday> birthdaysBox;
+  const MyApp({Key? key, required this.birthdaysBox}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  late Box<Birthday> birthdaysBox;
 
   @override
   void initState() {
     super.initState();
-    birthdaysBox = Hive.box<Birthday>('birthdays');
+    birthdaysBox = widget.birthdaysBox;
   }
-
-  late Box<Birthday> birthdaysBox;
 
   void addBirthday(Birthday birthday) async {
     try {

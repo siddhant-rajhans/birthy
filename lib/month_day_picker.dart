@@ -33,7 +33,7 @@ class _MonthDayPickerState extends State<MonthDayPicker> {
       children: [
         const Text(
           'Date:',
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
@@ -81,7 +81,6 @@ class _MonthDayPickerState extends State<MonthDayPicker> {
     if (_selectedDay > maxDaysInMonth) {
       _selectedDay = maxDaysInMonth;
     }
-    widget.onDateSelected(
-        DateTime(now.year, _selectedMonth, _selectedDay));
+    widget.onDateSelected(DateTime(now.year, _selectedMonth, _selectedDay));
   }
 }

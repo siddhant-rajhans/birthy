@@ -56,7 +56,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                       setState(() {
                         final birthdayIndex = widget.birthdays.indexOf(birthday);
                         widget.birthdays[birthdayIndex] = updatedBirthday;
-                        // Update notification if date changed (implementation left for you)
+                        widget.onBirthdayEdited(updatedBirthday); // Notify parent to update notification
                       });
                     }
                   },

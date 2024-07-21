@@ -50,31 +50,27 @@ class _MyAppState extends State<MyApp> {
 
   void _scheduleNotification(Birthday birthday) async {
     final now = tz.TZDateTime.now(tz.local);
-    final birthdayDate = tz.TZDateTime(
-        tz.local,
-        now.year,
-        birthday.dateOfBirth.month,
-        birthday.dateOfBirth.day,
-        9,
-        0,
-        0);
-    if (birthdayDate.isBefore(now)) {
-      final nextYearBirthday =
-      birthdayDate.add(const Duration(days: 365));
-      await NotificationService.showNotification(
-        id: birthday.id,
-        title: 'Birthday Reminder',
-        body: 'It\'s ${birthday.name}\'s birthday!',
-        scheduledDate: nextYearBirthday,
-      );
-    } else {
-      await NotificationService.showNotification(
-        id: birthday.id,
-        title: 'Birthday Reminder',
-        body: 'It\'s ${birthday.name}\'s birthday!',
-        scheduledDate: birthdayDate,
-      );
+    var scheduledDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      birthday.dateOfBirth.month,
+      birthday.dateOfBirth.day,
+      9,
+      0,
+      0,
+    );
+
+    // If birthday has already passed this year, schedule for next year
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 365));
     }
+
+    await NotificationService.showNotification(
+      id: birthday.id,
+      title: 'Birthday Reminder',
+      body: 'It\'s ${birthday.name}\'s birthday!',
+      scheduledDate: scheduledDate,
+    );
   }
 
   void editBirthday(int index, Birthday updatedBirthday) async {

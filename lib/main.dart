@@ -109,8 +109,8 @@ class _MyAppState extends State<MyApp> {
             }
             return BirthdayListScreen(
               birthdays: box.values.toList(),
-              onBirthdayEdited: editBirthday,
-              onBirthdayRemoved: removeBirthday,
+              onBirthdayEdited: (index, birthday) => editBirthday(index, birthday),
+              onBirthdayRemoved: (index, birthday) => removeBirthday(index, birthday),
             );
           },
         ),

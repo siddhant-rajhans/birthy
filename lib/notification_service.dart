@@ -36,14 +36,16 @@ class NotificationService {
         scheduledDate.minute,
       );
     }
-    await _notifications.schedule(
-      id: id,
-      title: title,
-      body: body,
+    await _notifications.zonedSchedule(
+      id,
+      title,
+      body,
       scheduledDate,
       await _notifications.getNotificationAppLaunchDetails(),
       payload: 'birthday_notification',
       androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 

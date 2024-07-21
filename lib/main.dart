@@ -10,6 +10,7 @@ import 'adapters.dart';
 import 'add_birthday_screen.dart';
 import 'birthday_list_screen.dart';
 import 'birthday_model.dart';
+import 'splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

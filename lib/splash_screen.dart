@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
               Colors.transparent,
               Colors.black,
             ],
-            stops: [0.0, 0.2, 0.8, 1.0],
+            stops: [0.0, 0.1, 0.9, 1.0],
           ).createShader(bounds),
           blendMode: BlendMode.dstIn,
           child: Image.asset(

@@ -41,6 +41,7 @@ class NotificationService {
       title,
       body,
       scheduledDate,
+      const NotificationDetails(),
       payload: 'birthday_notification',
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:

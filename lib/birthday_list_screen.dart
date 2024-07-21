@@ -6,7 +6,7 @@ import 'birthday_model.dart';
 
 class BirthdayListScreen extends StatefulWidget {
   final List<Birthday> birthdays;
-  final Function(Birthday) onBirthdayEdited;
+  final Function(Birthday, Birthday) onBirthdayEdited;
   final Function(Birthday) onBirthdayRemoved;
 
   const BirthdayListScreen({
@@ -46,7 +46,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AddBirthdayScreen(
-                          onBirthdayAdded: (updatedBirthday) => widget.onBirthdayEdited(updatedBirthday),
+                          onBirthdayAdded: (updatedBirthday) => widget.onBirthdayEdited(birthday, updatedBirthday),
                           initialBirthday: birthday,
                           birthdays: widget.birthdays, // Pass birthdays here
                         ),
@@ -56,7 +56,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                       setState(() {
                         final birthdayIndex = widget.birthdays.indexOf(birthday);
                         widget.birthdays[birthdayIndex] = updatedBirthday;
-                        widget.onBirthdayEdited(updatedBirthday); // Notify parent to update notification
+                        widget.onBirthdayEdited(birthday, updatedBirthday); // Notify parent to update notification
                       });
                     }
                   },

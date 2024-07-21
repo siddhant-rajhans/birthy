@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -34,9 +35,11 @@ class SplashScreen extends StatelessWidget {
               stops: [0.0, 0.2, 0.8, 1.0], // Adjusted for stronger fade
             ).createShader(bounds),
             blendMode: BlendMode.dstIn,
-            child: Image.asset(
-              'images/1.png',
+            child: FadeInImage(
+              placeholder: MemoryImage(kTransparentImage), // Placeholder
+              image: const AssetImage('images/1.png'),
               fit: BoxFit.contain,
+              fadeOutDuration: const Duration(milliseconds: 500), // Adjust as needed
             ),
           ),
         ),

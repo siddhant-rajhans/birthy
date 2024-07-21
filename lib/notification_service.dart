@@ -36,6 +36,7 @@ class NotificationService {
       title: title,
       body: body,
       when: scheduledDate.millisecondsSinceEpoch,
+      timeZone: scheduledDate.timeZone,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,

@@ -7,41 +7,13 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black, // Set background color to black
       body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black,
-                Colors.red,
-                Colors.orange,
-                Colors.yellow,
-              ],
-              stops: [0.0, 0.4, 0.6, 1.0],
-            ),
-          ),
-          child: ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black,
-                Colors.transparent,
-                Colors.transparent,
-                Colors.black,
-              ],
-              stops: [0.0, 0.2, 0.8, 1.0], // Adjusted for stronger fade
-            ).createShader(bounds),
-            blendMode: BlendMode.dstIn,
-            child: FadeInImage(
-              placeholder: const MemoryImage(Uint8List(0)), // Placeholder
-              image: const AssetImage('assets/images/logo.png'),
-              fit: BoxFit.contain,
-              fadeOutDuration: const Duration(milliseconds: 500), // Adjust as needed
-            ),
-          ),
+        child: FadeInImage(
+          placeholder: const MemoryImage(Uint8List(0)), // Placeholder
+          image: const AssetImage('assets/images/logo.png'),
+          fit: BoxFit.contain,
+          fadeOutDuration: const Duration(milliseconds: 500), // Adjust as needed
         ),
       ),
     );

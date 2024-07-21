@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
             ],
             stops: [0.0, 0.2, 0.8, 1.0],
           ).createShader(bounds),
-          blendMode: BlendMode.dstOut,
+          blendMode: BlendMode.dstIn,
           child: Image.asset(
             'images/1.png',
             fit: BoxFit.contain,

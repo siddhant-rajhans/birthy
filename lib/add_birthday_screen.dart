@@ -97,10 +97,20 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
   }
 
   int _generateUniqueId(List<Birthday> existingBirthdays) {
+    const maxAttempts = 1000;
+    int attempts = 0;
     int newId;
+
     do {
       newId = generateUniqueId();
-    } while (existingBirthdays.any((birthday) => birthday.id == newId));
+      attempts++;
+    } while (existingBirthdays.any((birthday) => birthday.id == newId) && attempts < maxAttempts);
+
+    if (attempts >= maxAttempts) {
+      // Handle the error, e.g., by throwing an exception or showing an error message
+      throw Exception('Failed to generate a unique ID after $maxAttempts attempts.');
+    }
+
     return newId;
   }
 }

@@ -51,52 +51,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
-  final Function(Birthday) onBirthdayAdded; // Add this line
-
-  const BirthdayListScreen({
-    required this.birthdays,
-    required this.onBirthdayEdited,
-    required this.onBirthdayRemoved,
-    required this.onBirthdayAdded, // Add this line
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<BirthdayListScreen> createState() => _BirthdayListScreenState();
-}
-
-class _BirthdayListScreenState extends State<BirthdayListScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dates to remind'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final newBirthday = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddBirthdayScreen(
-                onBirthdayAdded: (birthday) {
-                  setState(() {
-                    widget.birthdays.add(birthday);
-                  });
-                  // Call the callback to update the list in main.dart
-                  widget.onBirthdayAdded(birthday); 
-                },
-                birthdays: widget.birthdays, 
-              ),
-            ),
-          );
-          if (newBirthday != null) {
-            // Handle scrolling to the new birthday if needed
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: ListView.builder(
-        itemCount: widget.birthdays.length,
+        itemCount: widget.birthdays.length, 
         itemBuilder: (context, index) {
           final birthday = widget.birthdays[index];
           return Card(

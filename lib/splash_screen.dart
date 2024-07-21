@@ -35,12 +35,7 @@ class SplashScreen extends StatelessWidget {
               stops: [0.0, 0.2, 0.8, 1.0], // Adjusted for stronger fade
             ).createShader(bounds),
             blendMode: BlendMode.dstIn,
-            child: FadeInImage(
-              placeholder: const MemoryImage(Uint8List(0)), // Placeholder
-              image: const AssetImage('assets/images/logo.png'),
-              fit: BoxFit.contain,
-              fadeOutDuration: const Duration(milliseconds: 500), // Adjust as needed
-            ),
+            child: Image.asset('assets/images/logo.png'),
           ),
         ),
       ),

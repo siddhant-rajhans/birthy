@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
@@ -24,15 +25,6 @@ class NotificationService {
     required String body,
     required DateTime scheduledDate,
   }) async {
-    final scheduledTime = tz.TZDateTime(
-      tz.local,
-      scheduledDate.year,
-      scheduledDate.month,
-      scheduledDate.day,
-      9,
-      0,
-    );
-
     await _notifications.zonedSchedule(
       id: id,
       channelId: 'birthday_channel',
@@ -43,7 +35,7 @@ class NotificationService {
       ticker: 'Birthday Reminder',
       title: title,
       body: body,
-      when: scheduledTime.millisecondsSinceEpoch,
+      when: scheduledDate.millisecondsSinceEpoch,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,

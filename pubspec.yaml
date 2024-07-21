@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    assets:
-      - assets/
   intl: ^0.19.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -23,6 +21,8 @@ dependencies:
   numberpicker: ^2.1.1
   google_fonts:
   flutter_lints: ^4.0.0
+  assets:
+    - assets/
 
 dev_dependencies:
   build_runner: ^2.3.3

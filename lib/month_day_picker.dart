@@ -31,6 +31,11 @@ class _MonthDayPickerState extends State<MonthDayPicker> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const Text(
+          'Date:',
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 16),
         NumberPicker(
           value: _selectedDay,
           minValue: 1,

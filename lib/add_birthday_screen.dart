@@ -62,7 +62,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                     name: _nameController.text,
                     dateOfBirth: DateTime(_selectedDate!.year,
                         _selectedDate!.month, _selectedDate!.day),
-                    id: _id ?? generateUniqueId(), 
+                    id: widget.initialBirthday?.id ?? generateUniqueId(), // Assign new ID only if it's a new birthday
                   );
                   widget.onBirthdayAdded(birthday);
                   Navigator.pop(context);

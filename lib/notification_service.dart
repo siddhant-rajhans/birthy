@@ -23,7 +23,7 @@ class NotificationService {
     required int id,
     required String title,
     required String body,
-    required DateTime scheduledDate,
+    required tz.TZDateTime scheduledDate,
   }) async {
     await _notifications.zonedSchedule(
       id: id,
@@ -35,7 +35,7 @@ class NotificationService {
       ticker: 'Birthday Reminder',
       title: title,
       body: body,
-      timeZone: scheduledDate.timeZone,
+      when: scheduledDate.millisecondsSinceEpoch,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,

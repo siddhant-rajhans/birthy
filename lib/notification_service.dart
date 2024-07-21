@@ -43,7 +43,7 @@ class NotificationService {
       scheduledDate,
       await _notifications.getNotificationAppLaunchDetails(),
       payload: 'birthday_notification',
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );

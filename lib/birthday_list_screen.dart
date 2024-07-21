@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 
 import 'add_birthday_screen.dart';
 import 'birthday_model.dart';
-import 'notification_service.dart';
 
 class BirthdayListScreen extends StatefulWidget {
   final List<Birthday> birthdays;

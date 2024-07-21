@@ -108,11 +108,13 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                           ),
                           TextButton(
                             onPressed: () {
+                              final box = Hive.box<Birthday>('birthdays');
+                              box.delete(birthday.key); // Delete from Hive
                               widget.onBirthdayRemoved(birthday);
                               Navigator.pop(context); // Close the dialog
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Birthday removed'),
+                                  content: Text('Birthday deleted'),
                                   duration: Duration(seconds: 2),
                                 ),
                               );

@@ -43,7 +43,9 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return BirthdayListScreen(
               birthdays: birthdaysBox.values.toList(),
-              onBirthdayEdited: (oldBirthday, newBirthday) {},
+              onBirthdayEdited: (oldBirthday, newBirthday) {
+                birthdaysBox.put(newBirthday.key, newBirthday);
+              },
               onBirthdayRemoved: (birthday) {},
               onBirthdayAdded: (birthday) {
                 birthdaysBox.add(birthday);

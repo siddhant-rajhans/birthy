@@ -37,7 +37,20 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home:  SplashScreen(),
+      home: FutureBuilder(
+        future: Future.delayed(const Duration(seconds: 3)),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return BirthdayListScreen(
+              birthdays: birthdaysBox.values.toList(),
+              onBirthdayEdited: (oldBirthday, newBirthday) {},
+              onBirthdayRemoved: (birthday) {},
+            );
+          } else {
+            return const SplashScreen();
+          }
+        },
+      ),
     );
   }
 

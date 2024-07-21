@@ -30,17 +30,22 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     birthdaysBox = Hive.box<Birthday>('birthdays');
-    _loadBirthdays();
   }
 
   late Box<Birthday> birthdaysBox;
 
   void addBirthday(Birthday birthday) async {
-    await birthdaysBox.add(birthday); // Birthday object should have all required fields
-    _scheduleNotification(birthday);
+    try {
+      await birthdaysBox.add(birthday);
+      _scheduleNotification(birthday);
+    } catch (e) {
+      // Handle error, e.g., show error message
+      print('Error adding birthday: $e');
+    }
   }
 
   void _scheduleNotification(Birthday birthday) async {
+    // Consider allowing user to configure notification time
     final now = tz.TZDateTime.now(tz.local);
     var scheduledDate = tz.TZDateTime(
       tz.local,
@@ -53,28 +58,44 @@ class _MyAppState extends State<MyApp> {
     );
 
     // If birthday has already passed this year, schedule for next year
+    // You might want to adjust this logic based on user preferences
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 365));
     }
 
-    await NotificationService.showNotification(
-      id: birthday.id,
-      title: 'Birthday Reminder',
-      body: 'It\'s ${birthday.name}\'s birthday!',
-      scheduledDate: scheduledDate,
-    );
+    try {
+      await NotificationService.showNotification(
+        id: birthday.id,
+        title: 'Birthday Reminder',
+        body: 'It\'s ${birthday.name}\'s birthday!',
+        scheduledDate: scheduledDate,
+      );
+    } catch (e) {
+      // Handle error, e.g., show error message
+      print('Error scheduling notification: $e');
+    }
   }
 
   void editBirthday(Birthday oldBirthday, Birthday updatedBirthday) async {
-    final index = birthdaysBox.values.toList().indexOf(oldBirthday);
-    await birthdaysBox.putAt(index, updatedBirthday);
-    await NotificationService.cancelNotification(id: updatedBirthday.id);
-    _scheduleNotification(updatedBirthday);
+    try {
+      final index = birthdaysBox.values.toList().indexOf(oldBirthday);
+      await birthdaysBox.putAt(index, updatedBirthday);
+      await NotificationService.cancelNotification(id: updatedBirthday.id);
+      _scheduleNotification(updatedBirthday);
+    } catch (e) {
+      // Handle error, e.g., show error message
+      print('Error editing birthday: $e');
+    }
   }
 
   void removeBirthday(Birthday birthday) async {
-    await birthdaysBox.delete(birthday);
-    await NotificationService.cancelNotification(id: birthday.id);
+    try {
+      await birthdaysBox.delete(birthday);
+      await NotificationService.cancelNotification(id: birthday.id);
+    } catch (e) {
+      // Handle error, e.g., show error message
+      print('Error removing birthday: $e');
+    }
   }
 
   @override

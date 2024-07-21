@@ -25,32 +25,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final newBirthday = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddBirthdayScreen(
-                onBirthdayAdded: (birthday) {
-                  // Add birthday to the list and update UI
-                  setState(() {
-                    widget.birthdays.add(birthday);
-                  });
-                  widget.onBirthdayAdded(birthday); // Notify parent widget
-                },
-                birthdays: widget.birthdays, // Pass the birthdays list
-              ),
-            ),
-          );
-          if (newBirthday != null) {
-            // Optional: Scroll to the newly added birthday
-            // You'll need to adjust this based on your list view implementation
-            // Example: _scrollController.animateTo(...)
-          }
-        },
-        child: const Icon(Icons.add),
+        title: const Text('Dates to remind'),
       ),
       body: ListView.builder(
         itemCount: widget.birthdays.length,

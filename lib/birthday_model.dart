@@ -19,4 +19,12 @@ class Birthday {
 
   // Getter for unique key (assuming ID is unique)
   int get key => id;
+
+  Birthday copyWith({String? name, DateTime? dateOfBirth, int? id}) {
+    return Birthday(
+      name: name ?? this.name,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      id: id ?? this.id,
+    );
+  }
 }

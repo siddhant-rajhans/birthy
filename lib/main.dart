@@ -125,17 +125,19 @@ class _MyAppState extends State<MyApp> {
             },
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.push(
-            context, // Use context from Builder
-            MaterialPageRoute(
-              builder: (context) => AddBirthdayScreen(
-                onBirthdayAdded: addBirthday,
-                birthdays: birthdaysBox.values.toList(), // Pass the birthdays list here
+        floatingActionButton: Builder( // Wrap with Builder
+          builder: (context) => FloatingActionButton(
+            onPressed: () => Navigator.push(
+              context, // Use context from Builder
+              MaterialPageRoute(
+                builder: (context) => AddBirthdayScreen(
+                  onBirthdayAdded: addBirthday,
+                  birthdays: birthdaysBox.values.toList(), // Pass the birthdays list here
+                ),
               ),
             ),
+            child: const Icon(Icons.add),
           ),
-          child: const Icon(Icons.add),
         ),
       ),
     );

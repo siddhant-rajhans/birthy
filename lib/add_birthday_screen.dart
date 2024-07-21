@@ -1,6 +1,7 @@
-import 'package:birthy/month_day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+
+import 'package:birthy/month_day_picker.dart';
 
 import 'birthday_model.dart';
 
@@ -61,14 +62,22 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                   final birthday = Birthday(
                     name: _nameController.text,
                     dateOfBirth: DateTime(DateTime.now().year, _selectedDate!.month, _selectedDate!.day),
-                    id: widget.initialBirthday?.id ?? 
+                    id: widget.initialBirthday?.id ??
                         generateUniqueId(widget.birthdays), // Pass birthdays to the function
                   );
                   widget.onBirthdayAdded(birthday);
                   Navigator.pop(context, birthday);
                 }
               },
-              child: const Text('Save Birthday'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pink[300], // Change button color
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                textStyle: const TextStyle(fontSize: 18),
+              ),
+              child: const Text(
+                'Save Birthday',
+                style: TextStyle(color: Colors.white), // Change text color
+              ),
             ),
           ],
         ),

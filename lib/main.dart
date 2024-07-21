@@ -76,34 +76,7 @@ class _MyAppState extends State<MyApp> {
   void editBirthday(int index, Birthday updatedBirthday) async {
     await birthdaysBox.putAt(index, updatedBirthday);
     await NotificationService.cancelNotification(id: updatedBirthday.id);
-
-    final now = tz.TZDateTime.now(tz.local);
-    final updatedBirthdayThisYear = tz.TZDateTime(
-      tz.local,
-      now.year,
-      updatedBirthday.dateOfBirth.month,
-      updatedBirthday.dateOfBirth.day,
-      9,
-      0,
-      0,
-    );
-
-    // Check if birthday has already passed this year
-    if (updatedBirthdayThisYear.isAfter(now)) {
-      final tomorrow = now.add(const Duration(days: 1));
-
-      if (updatedBirthdayThisYear.isBefore(tomorrow)) {
-        // Birthday is today or tomorrow, schedule for this year
-        _scheduleNotification(updatedBirthday.copyWith(dateOfBirth: updatedBirthdayThisYear));
-      } else {
-        // Birthday is later this year, schedule as usual
-        _scheduleNotification(updatedBirthday);
-      }
-    } else {
-      // Birthday has passed this year, schedule for next year
-      _scheduleNotification(updatedBirthday.copyWith(dateOfBirth: updatedBirthdayThisYear.add(const Duration(days: 365))));
-    }
-
+    _scheduleNotification(updatedBirthday);
     _loadBirthdays();
   }
 

@@ -40,8 +40,8 @@ class NotificationService {
         scheduledDate.year,
         scheduledDate.month,
         scheduledDate.day,
-        birthday.dateOfBirth.hour,
-        birthday.dateOfBirth.minute,
+        scheduledDate.hour,
+        scheduledDate.minute,
       ).millisecondsSinceEpoch,
       timeZone: scheduledDate.timeZone,
       uiLocalNotificationDateInterpretation:

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+import 'package:flutter/services.dart' show rootBundle;
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage('images/1.png'), context);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Center(

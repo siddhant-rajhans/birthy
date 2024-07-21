@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
             ).createShader(bounds),
             blendMode: BlendMode.dstIn,
             child: FadeInImage(
-              placeholder: MemoryImage(kTransparentImage), // Placeholder
+              placeholder: MemoryImage(ui.kTransparentImage), // Placeholder
               image: const AssetImage('images/1.png'),
               fit: BoxFit.contain,
               fadeOutDuration: const Duration(milliseconds: 500), // Adjust as needed

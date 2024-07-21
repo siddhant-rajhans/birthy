@@ -75,19 +75,20 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime firstDate = DateTime(DateTime.now().year - 1, 1, 1);
-    final DateTime lastDate = DateTime(DateTime.now().year + 1, 12, 31);
-
-    final DateTime? picked = await showMonthPicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: firstDate,
-      lastDate: lastDate,
+      firstDate: DateTime(DateTime.now().year - 100, 1, 1), // Allow past dates
+      lastDate: DateTime(DateTime.now().year + 100, 12, 31), // Allow future dates
     );
 
     if (picked != null && picked != _selectedDate) {
       setState(() {
-        _selectedDate = picked;
+        _selectedDate = DateTime(
+          _selectedDate!.year,
+          picked.month,
+          picked.day,
+        );
       });
     }
   }

@@ -118,6 +118,9 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                                   duration: Duration(seconds: 2),
                                 ),
                               );
+                              setState(() {
+                                widget.birthdays.remove(birthday);
+                              });
                             },
                             child: const Text('Delete'),
                           ),

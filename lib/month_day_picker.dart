@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_numberpicker/flutter_numberpicker.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:intl/intl.dart';
 
 class MonthDayPicker extends StatefulWidget {

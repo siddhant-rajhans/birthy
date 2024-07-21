@@ -35,19 +35,9 @@ class _MyAppState extends State<MyApp> {
 
   late Box<Birthday> birthdaysBox;
 
-  void _loadBirthdays() async {
-    final birthdays = birthdaysBox.values.toList(); // Get all birthdays from box
-    setState(() {
-      _birthdays = birthdays;
-    });
-  }
-
-  List<Birthday> _birthdays = [];
-
   void addBirthday(Birthday birthday) async {
     await birthdaysBox.add(birthday); // Birthday object should have all required fields
     _scheduleNotification(birthday);
-    _loadBirthdays(); // Update UI after adding
   }
 
   void _scheduleNotification(Birthday birthday) async {
@@ -75,17 +65,16 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void editBirthday(int index, Birthday updatedBirthday) async {
+  void editBirthday(Birthday oldBirthday, Birthday updatedBirthday) async {
+    final index = birthdaysBox.values.toList().indexOf(oldBirthday);
     await birthdaysBox.putAt(index, updatedBirthday);
     await NotificationService.cancelNotification(id: updatedBirthday.id);
     _scheduleNotification(updatedBirthday);
-    _loadBirthdays();
   }
 
-  void removeBirthday(int index, Birthday birthday) async {
-    await birthdaysBox.deleteAt(index);
+  void removeBirthday(Birthday birthday) async {
+    await birthdaysBox.delete(birthday);
     await NotificationService.cancelNotification(id: birthday.id);
-    _loadBirthdays();
   }
 
   @override
@@ -107,8 +96,8 @@ class _MyAppState extends State<MyApp> {
             }
             return BirthdayListScreen(
               birthdays: box.values.toList(),
-              onBirthdayEdited: (birthday) => editBirthday(_birthdays.indexOf(birthday), birthday),
-              onBirthdayRemoved: (birthday) => removeBirthday(_birthdays.indexOf(birthday), birthday),
+              onBirthdayEdited: editBirthday,
+              onBirthdayRemoved: removeBirthday,
             );
           },
         ),
@@ -118,7 +107,7 @@ class _MyAppState extends State<MyApp> {
             MaterialPageRoute(
               builder: (context) => AddBirthdayScreen(
                 onBirthdayAdded: addBirthday,
-                birthdays: _birthdays, // Pass the birthdays list here
+                birthdays: birthdaysBox.values.toList(), // Pass the birthdays list here
               ),
             ),
           ),

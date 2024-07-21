@@ -25,6 +25,17 @@ class NotificationService {
     required String body,
     required tz.TZDateTime scheduledDate,
   }) async {
+    final now = tz.TZDateTime.now(tz.local);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = tz.TZDateTime(
+        tz.local,
+        now.year + 1,
+        scheduledDate.month,
+        scheduledDate.day,
+        scheduledDate.hour,
+        scheduledDate.minute,
+      );
+    }
     await _notifications.zonedSchedule(
       id: id,
       channelId: 'birthday_channel',
@@ -35,14 +46,7 @@ class NotificationService {
       ticker: 'Birthday Reminder',
       title: title,
       body: body,
-      when: tz.TZDateTime(
-        tz.local,
-        scheduledDate.year,
-        scheduledDate.month,
-        scheduledDate.day,
-        scheduledDate.hour,
-        scheduledDate.minute,
-      ).millisecondsSinceEpoch,
+      when: scheduledDate.millisecondsSinceEpoch,
       timeZone: scheduledDate.timeZone,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,

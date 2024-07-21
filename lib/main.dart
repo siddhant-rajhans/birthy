@@ -110,22 +110,24 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Birthdays'),
         ),
-        body: ValueListenableBuilder<Box<Birthday>>(
-          valueListenable: birthdaysBox.listenable(),
-          builder: (context, box, _) {
-            if (box.values.isEmpty) {
-              return const Center(child: Text('No birthdays added yet!'));
-            }
-            return BirthdayListScreen(
-              birthdays: box.values.toList(),
-              onBirthdayEdited: editBirthday,
-              onBirthdayRemoved: removeBirthday,
-            );
-          },
+        body: Builder( // Wrap with Builder
+          builder: (context) => ValueListenableBuilder<Box<Birthday>>(
+            valueListenable: birthdaysBox.listenable(),
+            builder: (context, box, _) {
+              if (box.values.isEmpty) {
+                return const Center(child: Text('No birthdays added yet!'));
+              }
+              return BirthdayListScreen(
+                birthdays: box.values.toList(),
+                onBirthdayEdited: editBirthday,
+                onBirthdayRemoved: removeBirthday,
+              );
+            },
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.push(
-            context,
+            context, // Use context from Builder
             MaterialPageRoute(
               builder: (context) => AddBirthdayScreen(
                 onBirthdayAdded: addBirthday,

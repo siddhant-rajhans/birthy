@@ -60,9 +60,8 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                 if (_nameController.text.isNotEmpty && _selectedDate != null) {
                   final birthday = Birthday(
                     name: _nameController.text,
-                    dateOfBirth: DateTime(
-                        DateTime.now().year, _selectedDate!.month, _selectedDate!.day),
-                    id: widget.initialBirthday?.id ??
+                    dateOfBirth: DateTime(DateTime.now().year, _selectedDate!.month, _selectedDate!.day),
+                    id: widget.initialBirthday?.id ?? 
                         generateUniqueId(widget.birthdays), // Pass birthdays to the function
                   );
                   widget.onBirthdayAdded(birthday);

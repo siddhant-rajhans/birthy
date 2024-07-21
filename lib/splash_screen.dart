@@ -8,9 +8,12 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Image.asset(
-          'images/1.png',
-          fit: BoxFit.contain,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+          child: Image.asset(
+            'images/1.png',
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

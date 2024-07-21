@@ -67,7 +67,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                     name: _nameController.text,
                     dateOfBirth: DateTime(_selectedDate!.year,
                         _selectedDate!.month, _selectedDate!.day),
-                    id: _id ?? _generateUniqueId(widget.birthdays), // Pass the birthdays list to the function
+                    id: _id ?? generateUniqueId(), 
                   );
                   widget.onBirthdayAdded(birthday);
                   Navigator.pop(context);
@@ -96,21 +96,8 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
     }
   }
 
-  int _generateUniqueId(List<Birthday> existingBirthdays) {
-    const maxAttempts = 1000;
-    int attempts = 0;
-    int newId;
-
-    do {
-      newId = generateUniqueId();
-      attempts++;
-    } while (existingBirthdays.any((birthday) => birthday.id == newId) && attempts < maxAttempts);
-
-    if (attempts >= maxAttempts) {
-      // Handle the error, e.g., by throwing an exception or showing an error message
-      throw Exception('Failed to generate a unique ID after $maxAttempts attempts.');
-    }
-
-    return newId;
+  int generateUniqueId() {
+    var uuid = const Uuid();
+    return uuid.v4().hashCode;
   }
 }

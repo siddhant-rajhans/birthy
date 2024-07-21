@@ -1,6 +1,7 @@
 import 'package:birthy/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:birthy/theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -105,14 +106,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Birthday Reminder',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.deepOrange,
         textTheme: GoogleFonts.nunitoTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Birthdays'),
+          title: Text('Birthdays', style: appBarTextStyle,),
         ),
         body: Builder( // Wrap with Builder
           builder: (context) => ValueListenableBuilder<Box<Birthday>>(

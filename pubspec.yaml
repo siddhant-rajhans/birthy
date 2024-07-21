@@ -19,7 +19,7 @@ dependencies:
   uuid: ^3.0.6
   timezone: ^0.9.1
   numberpicker: ^2.1.1
-  google_fonts: ^6.1.0
+  google_fonts: ^10.8.1
 
 dev_dependencies:
   build_runner: ^2.3.3

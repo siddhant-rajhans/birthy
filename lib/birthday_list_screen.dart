@@ -32,10 +32,18 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
         itemCount: widget.birthdays.length,
         itemBuilder: (context, index) {
           final birthday = widget.birthdays[index];
-          return ListTile(
-            title: Text(birthday.name),
-            subtitle: Text(DateFormat('y MMMM d').format(birthday.dateOfBirth)),
-            trailing: Row(
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            child: ListTile(
+              title: Text(
+                birthday.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              subtitle: Text(DateFormat('MMMM d').format(birthday.dateOfBirth)),
+              trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(

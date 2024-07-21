@@ -33,11 +33,6 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
     }
   }
 
-  int generateUniqueId() {
-    var uuid = const Uuid();
-    return uuid.v4().hashCode;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

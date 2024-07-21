@@ -86,7 +86,6 @@ class _MyAppState extends State<MyApp> {
     await NotificationService.cancelNotification(id: updatedBirthday.id);
 
     final now = tz.TZDateTime.now(tz.local);
-    final tomorrow = now.add(const Duration(days: 1));
     final updatedBirthdayThisYear = tz.TZDateTime(
       tz.local,
       now.year,
@@ -97,12 +96,20 @@ class _MyAppState extends State<MyApp> {
       0,
     );
 
-    if (updatedBirthdayThisYear.isBefore(tomorrow)) {
-      // Birthday is today or tomorrow, schedule for this year
-      _scheduleNotification(updatedBirthday.copyWith(dateOfBirth: updatedBirthdayThisYear));
+    // Check if birthday has already passed this year
+    if (updatedBirthdayThisYear.isAfter(now)) {
+      final tomorrow = now.add(const Duration(days: 1));
+
+      if (updatedBirthdayThisYear.isBefore(tomorrow)) {
+        // Birthday is today or tomorrow, schedule for this year
+        _scheduleNotification(updatedBirthday.copyWith(dateOfBirth: updatedBirthdayThisYear));
+      } else {
+        // Birthday is later this year, schedule as usual
+        _scheduleNotification(updatedBirthday);
+      }
     } else {
-      // Birthday is later, schedule as usual
-      _scheduleNotification(updatedBirthday);
+      // Birthday has passed this year, schedule for next year
+      _scheduleNotification(updatedBirthday.copyWith(dateOfBirth: updatedBirthdayThisYear.add(const Duration(days: 365))));
     }
 
     _loadBirthdays();

@@ -45,6 +45,9 @@ class MyApp extends StatelessWidget {
               birthdays: birthdaysBox.values.toList(),
               onBirthdayEdited: (oldBirthday, newBirthday) {},
               onBirthdayRemoved: (birthday) {},
+              onBirthdayAdded: (birthday) {
+                birthdaysBox.add(birthday);
+              },
             );
           } else {
             return const SplashScreen();

@@ -35,7 +35,14 @@ class NotificationService {
       ticker: 'Birthday Reminder',
       title: title,
       body: body,
-      when: scheduledDate.millisecondsSinceEpoch,
+      when: tz.TZDateTime(
+        tz.local,
+        scheduledDate.year,
+        scheduledDate.month,
+        scheduledDate.day,
+        birthday.dateOfBirth.hour,
+        birthday.dateOfBirth.minute,
+      ).millisecondsSinceEpoch,
       timeZone: scheduledDate.timeZone,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,

@@ -8,8 +8,10 @@ class AddBirthdayScreen extends StatefulWidget {
   final Function(Birthday) onBirthdayAdded;
   final Birthday? initialBirthday; // Can be null for new birthdays
 
+  final List<Birthday> birthdays; // Add this line
+
   const AddBirthdayScreen(
-      {Key? key, required this.onBirthdayAdded, this.initialBirthday})
+      {Key? key, required this.onBirthdayAdded, this.initialBirthday, required this.birthdays}) // Add birthdays to the constructor
       : super(key: key);
 
   @override
@@ -65,7 +67,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                     name: _nameController.text,
                     dateOfBirth: DateTime(_selectedDate!.year,
                         _selectedDate!.month, _selectedDate!.day),
-                    id: _id ?? generateUniqueId(),
+                    id: _id ?? _generateUniqueId(widget.birthdays), // Pass the birthdays list to the function
                   );
                   widget.onBirthdayAdded(birthday);
                   Navigator.pop(context);
@@ -92,5 +94,13 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
         _selectedDate = picked;
       });
     }
+  }
+
+  int _generateUniqueId(List<Birthday> existingBirthdays) {
+    int newId;
+    do {
+      newId = generateUniqueId();
+    } while (existingBirthdays.any((birthday) => birthday.id == newId));
+    return newId;
   }
 }

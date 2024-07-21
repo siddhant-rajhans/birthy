@@ -144,6 +144,7 @@ class _MyAppState extends State<MyApp> {
             MaterialPageRoute(
               builder: (context) => AddBirthdayScreen(
                 onBirthdayAdded: addBirthday,
+                birthdays: _birthdays, // Pass the birthdays list here
               ),
             ),
           ),

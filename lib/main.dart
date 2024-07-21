@@ -1,23 +1,20 @@
+import 'package:birthy/notification_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'adapters.dart';
 import 'add_birthday_screen.dart';
 import 'birthday_list_screen.dart';
 import 'birthday_model.dart';
-import 'notification_service.dart';
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter('birthdays'); // Initialize Hive with box name
-  Hive.registerAdapter(BirthdayAdapter()); // Register Birthday adapter
-  await NotificationService.initialize(flutterLocalNotificationsPlugin);
-  runApp(MyApp());
+  await Hive.initFlutter('birthdays');
+  Hive.registerAdapter(BirthdayAdapter());
+  await NotificationService.initialize();
+  tz.initializeTimeZones();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

@@ -2,6 +2,7 @@ import 'package:birthy/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:birthy/theme.dart';
+import 'package:birthy/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -17,12 +18,81 @@ void main() async {
   await NotificationService.initialize();
   tz.initializeTimeZones();
   final birthdaysBox = await Hive.openBox<Birthday>('birthdays');
-  runApp(MyApp(birthdaysBox: birthdaysBox));
+  runApp(MyApp(birthdaysBox: birthdaysBox)); 
 }
 
 class MyApp extends StatefulWidget {
   final Box<Birthday> birthdaysBox;
   const MyApp({Key? key, required this.birthdaysBox}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _showSplashScreen = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLastOpened();
+  }
+
+  Future<void> _checkLastOpened() async {
+    // Implement logic to check when the app was last opened
+    // For simplicity, we'll just wait 2 seconds and then show the main app
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      _showSplashScreen = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Birthday Reminder',
+      theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
+        textTheme: GoogleFonts.nunitoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+      home: _showSplashScreen ? const SplashScreen() :  Scaffold(
+        appBar: AppBar(
+          title: Text('Birthdays', style: appBarTextStyle,),
+        ),
+        body: Builder( // Wrap with Builder
+          builder: (context) => ValueListenableBuilder<Box<Birthday>>(
+            valueListenable: widget.birthdaysBox.listenable(),
+            builder: (context, box, _) {
+              if (box.values.isEmpty) {
+                return const Center(child: Text('No birthdays added yet!'));
+              }
+              return BirthdayListScreen(
+                birthdays: box.values.toList(),
+                onBirthdayEdited: editBirthday,
+                onBirthdayRemoved: removeBirthday,
+              );
+            },
+          ),
+        ),
+        floatingActionButton: Builder( // Wrap with Builder
+          builder: (context) => FloatingActionButton(
+            onPressed: () => Navigator.push(
+              context, // Use context from Builder
+              MaterialPageRoute(
+                builder: (context) => AddBirthdayScreen(
+                  onBirthdayAdded: addBirthday,
+                  birthdays: widget.birthdaysBox.values.toList(), // Pass the birthdays list here
+                ),
+              ),
+            ),
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   State<MyApp> createState() => _MyAppState();

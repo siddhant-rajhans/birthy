@@ -8,11 +8,13 @@ class BirthdayListScreen extends StatefulWidget {
   final List<Birthday> birthdays;
   final Function(Birthday, Birthday) onBirthdayEdited;
   final Function(Birthday) onBirthdayRemoved;
+  final Function(Birthday) onBirthdayAdded;
 
   const BirthdayListScreen({
     required this.birthdays,
     required this.onBirthdayEdited,
     required this.onBirthdayRemoved,
+    required this.onBirthdayAdded,
     Key? key,
   }) : super(key: key);
 

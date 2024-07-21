@@ -49,6 +49,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                         builder: (context) => AddBirthdayScreen(
                           onBirthdayAdded: (updatedBirthday) => widget.onBirthdayEdited(updatedBirthday),
                           initialBirthday: birthday,
+                          birthdays: widget.birthdays, // Pass birthdays here
                         ),
                       ),
                     );

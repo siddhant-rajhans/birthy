@@ -18,7 +18,7 @@ void main() async {
   await NotificationService.initialize();
   tz.initializeTimeZones();
   final birthdaysBox = await Hive.openBox<Birthday>('birthdays');
-  runApp(MyApp(birthdaysBox: birthdaysBox)); 
+  runApp(MyApp(birthdaysBox: birthdaysBox));
 }
 
 class MyApp extends StatefulWidget {
@@ -94,22 +94,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late Box<Birthday> birthdaysBox;
-
-  @override
-  void initState() {
-    super.initState();
-    birthdaysBox = widget.birthdaysBox;
-  }
-
   void addBirthday(Birthday birthday) async {
     try {
-      await birthdaysBox.add(birthday);
+      await widget.birthdaysBox.add(birthday);
       _scheduleNotification(birthday);
     } catch (e) {
       // Handle error, e.g., show error message
@@ -151,8 +138,8 @@ class _MyAppState extends State<MyApp> {
 
   void editBirthday(Birthday oldBirthday, Birthday updatedBirthday) async {
     try {
-      final index = birthdaysBox.values.toList().indexOf(oldBirthday);
-      await birthdaysBox.putAt(index, updatedBirthday);
+      final index = widget.birthdaysBox.values.toList().indexOf(oldBirthday);
+      await widget.birthdaysBox.putAt(index, updatedBirthday);
       await NotificationService.cancelNotification(id: updatedBirthday.id);
       _scheduleNotification(updatedBirthday);
     } catch (e) {
@@ -163,58 +150,11 @@ class _MyAppState extends State<MyApp> {
 
   void removeBirthday(Birthday birthday) async {
     try {
-      await birthdaysBox.delete(birthday);
+      await widget.birthdaysBox.delete(birthday);
       await NotificationService.cancelNotification(id: birthday.id);
     } catch (e) {
       // Handle error, e.g., show error message
       print('Error removing birthday: $e');
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Birthday Reminder',
-      theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
-        textTheme: GoogleFonts.nunitoTextTheme(
-          Theme.of(context).textTheme,
-        ),
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Birthdays', style: appBarTextStyle,),
-        ),
-        body: Builder( // Wrap with Builder
-          builder: (context) => ValueListenableBuilder<Box<Birthday>>(
-            valueListenable: birthdaysBox.listenable(),
-            builder: (context, box, _) {
-              if (box.values.isEmpty) {
-                return const Center(child: Text('No birthdays added yet!'));
-              }
-              return BirthdayListScreen(
-                birthdays: box.values.toList(),
-                onBirthdayEdited: editBirthday,
-                onBirthdayRemoved: removeBirthday,
-              );
-            },
-          ),
-        ),
-        floatingActionButton: Builder( // Wrap with Builder
-          builder: (context) => FloatingActionButton(
-            onPressed: () => Navigator.push(
-              context, // Use context from Builder
-              MaterialPageRoute(
-                builder: (context) => AddBirthdayScreen(
-                  onBirthdayAdded: addBirthday,
-                  birthdays: birthdaysBox.values.toList(), // Pass the birthdays list here
-                ),
-              ),
-            ),
-            child: const Icon(Icons.add),
-          ),
-        ),
-      ),
-    );
   }
 }

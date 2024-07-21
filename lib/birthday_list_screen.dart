@@ -26,6 +26,49 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
     return Scaffold(
       appBar: AppBar(
 
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newBirthday = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddBirthdayScreen(
+                onBirthdayAdded: (birthday) {
+                  // Add birthday to the list and update UI
+                  setState(() {
+                    widget.birthdays.add(birthday);
+                  });
+                  widget.onBirthdayAdded(birthday); // Notify parent widget
+                },
+                birthdays: widget.birthdays, // Pass the birthdays list
+              ),
+            ),
+          );
+          if (newBirthday != null) {
+            // Optional: Scroll to the newly added birthday
+            // You'll need to adjust this based on your list view implementation
+            // Example: _scrollController.animateTo(...)
+          }
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: ListView.builder(
+        itemCount: widget.birthdays.length,
+        itemBuilder: (context, index) {
+          final birthday = widget.birthdays[index];
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            child: ListTile(
+              title: Text(
+                birthday.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              subtitle: Text(DateFormat('MMMM d').format(birthday.dateOfBirth)),
+              trailing: Row(
+
         title: const Text('Dates to remind'),
       ),
       body: ListView.builder(

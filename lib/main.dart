@@ -52,36 +52,45 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _scheduleNotification(Birthday birthday) async {
-    final birthdayDate = DateTime(DateTime.now().year, birthday.dateOfBirth.month, birthday.dateOfBirth.day);
-    if (birthdayDate.isBefore(DateTime.now())) {
-      birthdayDate = birthdayDate.add(const Duration(days: 365));
+    final now = tz.TZDateTime.now(tz.local);
+    final birthdayDate = tz.TZDateTime(
+        tz.local,
+        now.year,
+        birthday.dateOfBirth.month,
+        birthday.dateOfBirth.day,
+        9,
+        0,
+        0);
+    if (birthdayDate.isBefore(now)) {
+      final nextYearBirthday =
+      birthdayDate.add(const Duration(days: 365));
+      await NotificationService.showNotification(
+        id: birthday.id,
+        title: 'Birthday Reminder',
+        body: 'It\'s ${birthday.name}\'s birthday!',
+        scheduledDate: nextYearBirthday,
+      );
+    } else {
+      await NotificationService.showNotification(
+        id: birthday.id,
+        title: 'Birthday Reminder',
+        body: 'It\'s ${birthday.name}\'s birthday!',
+        scheduledDate: birthdayDate,
+      );
     }
-
-    await NotificationService.showNotification(
-      flutterLocalNotificationsPlugin,
-      id: birthday.id, // Assuming 'id' is unique
-      title: 'Birthday Reminder',
-      body: 'It\'s ${birthday.name}\'s birthday!',
-      scheduledDate: birthdayDate,
-    );
   }
 
-  void editBirthday(Birthday updatedBirthday) async {
-    for (int i = 0; i < _birthdays.length; i++) {
-      if (_birthdays[i] == updatedBirthday) {
-        await birthdaysBox.putAt(i, updatedBirthday);
-        await NotificationService.cancelNotification(flutterLocalNotificationsPlugin, id: _birthdays[i].id);
-        _scheduleNotification(updatedBirthday);
-        break;
-      }
-    }
-    _loadBirthdays(); // Update UI after editing
+  void editBirthday(int index, Birthday updatedBirthday) async {
+    await birthdaysBox.putAt(index, updatedBirthday);
+    await NotificationService.cancelNotification(id: updatedBirthday.id);
+    _scheduleNotification(updatedBirthday);
+    _loadBirthdays();
   }
 
-  void removeBirthday(Birthday birthday) async {
-    // Assuming you have a way to access the key for deletion (e.g., using a unique ID field)
-    await birthdaysBox.delete(birthday.key); // Use the correct key access method
-    _loadBirthdays(); // Update UI after deleting
+  void removeBirthday(int index, Birthday birthday) async {
+    await birthdaysBox.deleteAt(index);
+    await NotificationService.cancelNotification(id: birthday.id);
+    _loadBirthdays();
   }
 
   @override
@@ -97,12 +106,12 @@ class _MyAppState extends State<MyApp> {
         ),
         body: ValueListenableBuilder<Box<Birthday>>(
           valueListenable: birthdaysBox.listenable(),
-          builder: (context, box, widget) {
+          builder: (context, box, _) {
             if (box.values.isEmpty) {
               return const Center(child: Text('No birthdays added yet!'));
             }
             return BirthdayListScreen(
-              birthdays: box.values.toList(), // Get birthdays from box
+              birthdays: box.values.toList(),
               onBirthdayEdited: editBirthday,
               onBirthdayRemoved: removeBirthday,
             );
@@ -110,7 +119,13 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddBirthdayScreen(onBirthdayAdded: addBirthday))),
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddBirthdayScreen(
+                onBirthdayAdded: addBirthday,
+              ),
+            ),
+          ),
           child: const Icon(Icons.add),
         ),
       ),

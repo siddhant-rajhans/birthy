@@ -26,14 +26,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  late Box<Birthday> birthdaysBox; // Declare birthdaysBox here
-
   @override
   void initState() {
     super.initState();
-    birthdaysBox = Hive.box<Birthday>('birthdays'); // Initialize birthdaysBox here
+    birthdaysBox = Hive.box<Birthday>('birthdays');
     _loadBirthdays();
   }
+
+  late Box<Birthday> birthdaysBox;
 
   void _loadBirthdays() async {
     final birthdays = birthdaysBox.values.toList(); // Get all birthdays from box

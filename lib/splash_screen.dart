@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -10,8 +8,19 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.black,
+            ],
+            stops: [0.0, 0.2, 0.8, 1.0],
+          ).createShader(bounds),
+          blendMode: BlendMode.dstOut,
           child: Image.asset(
             'images/1.png',
             fit: BoxFit.contain,

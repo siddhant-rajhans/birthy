@@ -73,14 +73,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Birthday copyWith({String? name, DateTime? dateOfBirth, int? id}) {
-    return Birthday(
-      name: name ?? this.name,
-      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-      id: id ?? this.id,
-    );
-  }
-
   void editBirthday(int index, Birthday updatedBirthday) async {
     await birthdaysBox.putAt(index, updatedBirthday);
     await NotificationService.cancelNotification(id: updatedBirthday.id);

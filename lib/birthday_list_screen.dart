@@ -43,25 +43,6 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
               ),
               subtitle: Text(DateFormat('MMMM d').format(birthday.dateOfBirth)),
               trailing: Row(
-
-        title: const Text('Dates to remind'),
-      ),
-      body: ListView.builder(
-        itemCount: widget.birthdays.length,
-        itemBuilder: (context, index) {
-          final birthday = widget.birthdays[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            child: ListTile(
-              title: Text(
-                birthday.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              subtitle: Text(DateFormat('MMMM d').format(birthday.dateOfBirth)),
-              trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(

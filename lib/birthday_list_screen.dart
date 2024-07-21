@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 import 'add_birthday_screen.dart';
@@ -78,13 +79,16 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AddBirthdayScreen(
-                          onBirthdayAdded: (updatedBirthday) => widget.onBirthdayEdited(birthday, updatedBirthday),
+                          onBirthdayAdded: (birthday) {},
                           initialBirthday: birthday,
                           birthdays: widget.birthdays, // Pass birthdays here
                         ),
                       ),
                     );
                     if (updatedBirthday != null) {
+                      final box = Hive.box<Birthday>('birthdays');
+                      await box.put(updatedBirthday.key, updatedBirthday);
+                      widget.onBirthdayEdited(birthday, updatedBirthday);
                       setState(() {
                         final birthdayIndex = widget.birthdays.indexOf(birthday);
                         widget.birthdays[birthdayIndex] = updatedBirthday;

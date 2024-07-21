@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_numberpicker/flutter_numberpicker.dart';
+import 'package:intl/intl.dart';
 
 class MonthDayPicker extends StatefulWidget {
   final DateTime initialDate;
@@ -15,71 +17,60 @@ class MonthDayPicker extends StatefulWidget {
 }
 
 class _MonthDayPickerState extends State<MonthDayPicker> {
-  late int _selectedMonth;
   late int _selectedDay;
+  late int _selectedMonth;
 
   @override
   void initState() {
     super.initState();
-    _selectedMonth = widget.initialDate.month;
     _selectedDay = widget.initialDate.day;
+    _selectedMonth = widget.initialDate.month;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        DropdownButton<int>(
-          value: _selectedMonth,
-          onChanged: (newValue) {
-            setState(() {
-              _selectedMonth = newValue!;
-              _selectedDay = _getValidDay(_selectedMonth, _selectedDay);
-            });
-          },
-          items: List.generate(12, (index) {
-            final month = index + 1;
-            return DropdownMenuItem(
-              value: month,
-              child: Text(month.toString()),
-            );
-          }),
-        ),
-        const SizedBox(width: 16),
-        DropdownButton<int>(
+        NumberPicker(
           value: _selectedDay,
-          onChanged: (newValue) {
+          minValue: 1,
+          maxValue: 31,
+          onChanged: (value) {
             setState(() {
-              _selectedDay = newValue!;
+              _selectedDay = value;
+              _updateSelectedDate();
             });
           },
-          items: List.generate(_getDaysInMonth(_selectedMonth), (index) {
-            final day = index + 1;
-            return DropdownMenuItem(
-              value: day,
-              child: Text(day.toString()),
-            );
-          }),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Month: ${DateFormat('MMMM').format(DateTime(2024, _selectedMonth))} ($_selectedMonth)',
+          style: const TextStyle(fontSize: 16),
+        ),
+        NumberPicker(
+          value: _selectedMonth,
+          minValue: 1,
+          maxValue: 12,
+          onChanged: (value) {
+            setState(() {
+              _selectedMonth = value;
+              _updateSelectedDate();
+            });
+          },
+          itemWidth: 100,
         ),
       ],
     );
   }
 
-  int _getDaysInMonth(int month) {
-    if (month == 2) {
-      return 28; // Assuming non-leap year for simplicity
-    } else if ([4, 6, 9, 11].contains(month)) {
-      return 30;
-    } else {
-      return 31;
+  void _updateSelectedDate() {
+    final now = DateTime.now();
+    final maxDaysInMonth =
+        DateTime(now.year, _selectedMonth + 1, 0).day; // Get last day of month
+    if (_selectedDay > maxDaysInMonth) {
+      _selectedDay = maxDaysInMonth;
     }
-  }
-
-  int _getValidDay(int month, int day) {
-    final daysInMonth = _getDaysInMonth(month);
-    if (day > daysInMonth) {
-      return daysInMonth;
-    }
-    return day;
+    widget.onDateSelected(
+        DateTime(now.year, _selectedMonth, _selectedDay));
   }
 }

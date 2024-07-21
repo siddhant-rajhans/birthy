@@ -73,10 +73,38 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Birthday copyWith({String? name, DateTime? dateOfBirth, int? id}) {
+    return Birthday(
+      name: name ?? this.name,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      id: id ?? this.id,
+    );
+  }
+
   void editBirthday(int index, Birthday updatedBirthday) async {
     await birthdaysBox.putAt(index, updatedBirthday);
     await NotificationService.cancelNotification(id: updatedBirthday.id);
-    _scheduleNotification(updatedBirthday);
+
+    final now = tz.TZDateTime.now(tz.local);
+    final tomorrow = now.add(const Duration(days: 1));
+    final updatedBirthdayThisYear = tz.TZDateTime(
+      tz.local,
+      now.year,
+      updatedBirthday.dateOfBirth.month,
+      updatedBirthday.dateOfBirth.day,
+      9,
+      0,
+      0,
+    );
+
+    if (updatedBirthdayThisYear.isBefore(tomorrow)) {
+      // Birthday is today or tomorrow, schedule for this year
+      _scheduleNotification(updatedBirthday.copyWith(dateOfBirth: updatedBirthdayThisYear));
+    } else {
+      // Birthday is later, schedule as usual
+      _scheduleNotification(updatedBirthday);
+    }
+
     _loadBirthdays();
   }
 

@@ -37,10 +37,10 @@ class _MonthDayPickerState extends State<MonthDayPicker> {
         ),
         const SizedBox(height: 8),
         Text(
-          '${DateFormat('EEEE').format(DateTime(2024, _selectedMonth, _selectedDay))}',
+          '${DateFormat('EEEE, d MMMM').format(DateTime(2024, _selectedMonth, _selectedDay))}',
           style: const TextStyle(fontSize: 16),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
         NumberPicker(
           value: _selectedDay,
           minValue: 1,

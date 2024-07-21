@@ -51,15 +51,27 @@ class _MyAppState extends State<MyApp> {
     _loadBirthdays(); // Update UI after adding
   }
 
-  void _scheduleNotification(Birthday birthday) {
-    // ... Same notification scheduling logic from previous responses
+  void _scheduleNotification(Birthday birthday) async {
+    final birthdayDate = DateTime(DateTime.now().year, birthday.dateOfBirth.month, birthday.dateOfBirth.day);
+    if (birthdayDate.isBefore(DateTime.now())) {
+      birthdayDate = birthdayDate.add(const Duration(days: 365));
+    }
+
+    await NotificationService.showNotification(
+      flutterLocalNotificationsPlugin,
+      id: birthday.id, // Assuming 'id' is unique
+      title: 'Birthday Reminder',
+      body: 'It\'s ${birthday.name}\'s birthday!',
+      scheduledDate: birthdayDate,
+    );
   }
 
   void editBirthday(Birthday updatedBirthday) async {
     for (int i = 0; i < _birthdays.length; i++) {
       if (_birthdays[i] == updatedBirthday) {
         await birthdaysBox.putAt(i, updatedBirthday);
-        // Update notification if date changed (consider implementing logic here)
+        await NotificationService.cancelNotification(flutterLocalNotificationsPlugin, id: _birthdays[i].id);
+        _scheduleNotification(updatedBirthday);
         break;
       }
     }

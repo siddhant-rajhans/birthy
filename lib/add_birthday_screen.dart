@@ -19,10 +19,8 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
   DateTime? _selectedDate;
   int? _id; // Initialize id to null
 
-  // Function to generate unique ID (implementation based on your preference)
   int generateUniqueId() {
-    // Replace this with your preferred logic for generating unique IDs (e.g., timestamps, random numbers)
-    return DateTime.now().millisecondsSinceEpoch;
+    return uuid.v4().hashCode;
   }
 
   @override

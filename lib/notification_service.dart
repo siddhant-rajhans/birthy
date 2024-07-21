@@ -36,20 +36,13 @@ class NotificationService {
         scheduledDate.minute,
       );
     }
-    await _notifications.zonedSchedule(
+    await _notifications.schedule(
       id: id,
-      channelId: 'birthday_channel',
-      channelName: 'Birthday Reminders',
-      channelDescription: 'Channel for birthday reminders',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'Birthday Reminder',
       title: title,
       body: body,
-      when: scheduledDate.millisecondsSinceEpoch,
-      timeZone: scheduledDate.timeZone,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      scheduledDate,
+      await _notifications.getNotificationAppLaunchDetails(),
+      payload: 'birthday_notification',
       androidAllowWhileIdle: true,
     );
   }

@@ -1,5 +1,5 @@
+import 'package:birthy/month_day_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import 'birthday_model.dart';
@@ -46,24 +46,27 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
               decoration: const InputDecoration(labelText: 'Name'),
             ),
             const SizedBox(height: 16.0),
-            TextButton(
-              onPressed: () => _selectDate(context),
-              child: Text(
-                  _selectedDate?.toString().split(' ').first ?? 'Select Date'),
+            MonthDayPicker(
+              initialDate: _selectedDate ?? DateTime.now(),
+              onDateSelected: (date) {
+                setState(() {
+                  _selectedDate = date;
+                });
+              },
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                if (_nameController.text.isNotEmpty &&
-                    _selectedDate != null) {
+                if (_nameController.text.isNotEmpty && _selectedDate != null) {
                   final birthday = Birthday(
                     name: _nameController.text,
-                    dateOfBirth: DateTime(DateTime.now().year,
-                        _selectedDate!.month, _selectedDate!.day),
-                    id: widget.initialBirthday?.id ?? generateUniqueId(widget.birthdays), // Pass birthdays to the function
+                    dateOfBirth: DateTime(
+                        DateTime.now().year, _selectedDate!.month, _selectedDate!.day),
+                    id: widget.initialBirthday?.id ??
+                        generateUniqueId(widget.birthdays), // Pass birthdays to the function
                   );
                   widget.onBirthdayAdded(birthday);
-                  Navigator.pop(context);
+                  Navigator.pop(context, birthday);
                 }
               },
               child: const Text('Save Birthday'),
@@ -72,21 +75,6 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      firstDate: DateTime(DateTime.now().year, 1, 1),
-      lastDate: DateTime(DateTime.now().year, 12, 31),
-    );
-
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
   }
 
   int generateUniqueId(List<Birthday> birthdays) {

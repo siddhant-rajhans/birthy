@@ -84,10 +84,14 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              setState(() {
-                                widget.onBirthdayRemoved(birthday);
-                              });
-                              Navigator.pop(context);
+                              widget.onBirthdayRemoved(birthday);
+                              Navigator.pop(context); // Close the dialog
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Birthday removed'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
                             },
                             child: const Text('Delete'),
                           ),

@@ -160,7 +160,8 @@ class _MyAppState extends State<MyApp> {
 
   void removeBirthday(Birthday birthday) async {
     try {
-      await widget.birthdaysBox.delete(birthday);
+      final index = widget.birthdaysBox.values.toList().indexOf(birthday);
+      await widget.birthdaysBox.deleteAt(index);
       await NotificationService.cancelNotification(id: birthday.id);
     } catch (e) {
       // Handle error, e.g., show error message

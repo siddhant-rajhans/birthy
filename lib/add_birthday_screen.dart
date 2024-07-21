@@ -21,7 +21,6 @@ class AddBirthdayScreen extends StatefulWidget {
 class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
   final _nameController = TextEditingController();
   DateTime? _selectedDate;
-  int? _id; // Initialize id to null
 
   @override
   void initState() {
@@ -29,7 +28,6 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
     if (widget.initialBirthday != null) {
       _nameController.text = widget.initialBirthday!.name;
       _selectedDate = widget.initialBirthday!.dateOfBirth;
-      _id = widget.initialBirthday!.id;
     }
   }
 
@@ -62,7 +60,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                     name: _nameController.text,
                     dateOfBirth: DateTime(_selectedDate!.year,
                         _selectedDate!.month, _selectedDate!.day),
-                    id: widget.initialBirthday?.id ?? generateUniqueId(), // Assign new ID only if it's a new birthday
+                    id: widget.initialBirthday?.id ?? generateUniqueId(widget.birthdays), // Pass birthdays to the function
                   );
                   widget.onBirthdayAdded(birthday);
                   Navigator.pop(context);
@@ -91,8 +89,12 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
     }
   }
 
-  int generateUniqueId() {
+  int generateUniqueId(List<Birthday> birthdays) {
     var uuid = const Uuid();
-    return uuid.v4().hashCode;
+    int newId = uuid.v4().hashCode;
+    while (birthdays.any((birthday) => birthday.id == newId)) {
+      newId = uuid.v4().hashCode;
+    }
+    return newId;
   }
 }

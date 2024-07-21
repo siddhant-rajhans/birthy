@@ -51,46 +51,56 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Birthday Reminder',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
         textTheme: GoogleFonts.nunitoTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
-      home: _showSplashScreen ? const SplashScreen() :  Scaffold(
-        appBar: AppBar(
-          title: Text('Birthdays', style: appBarTextStyle,),
-        ),
-        body: Builder( // Wrap with Builder
-          builder: (context) => ValueListenableBuilder<Box<Birthday>>(
-            valueListenable: widget.birthdaysBox.listenable(),
-            builder: (context, box, _) {
-              if (box.values.isEmpty) {
-                return const Center(child: Text('No birthdays added yet!'));
-              }
-              return BirthdayListScreen(
-                birthdays: box.values.toList(),
-                onBirthdayEdited: editBirthday,
-                onBirthdayRemoved: removeBirthday,
-              );
-            },
-          ),
-        ),
-        floatingActionButton: Builder( // Wrap with Builder
-          builder: (context) => FloatingActionButton(
-            onPressed: () => Navigator.push(
-              context, // Use context from Builder
-              MaterialPageRoute(
-                builder: (context) => AddBirthdayScreen(
-                  onBirthdayAdded: addBirthday,
-                  birthdays: widget.birthdaysBox.values.toList(), // Pass the birthdays list here
+      home: _showSplashScreen
+          ? const SplashScreen()
+          : Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Birthdays',
+                  style: appBarTextStyle,
+                ),
+              ),
+              body: Builder(
+                // Wrap with Builder
+                builder: (context) => ValueListenableBuilder<Box<Birthday>>(
+                  valueListenable: widget.birthdaysBox.listenable(),
+                  builder: (context, box, _) {
+                    if (box.values.isEmpty) {
+                      return const Center(
+                          child: Text('No birthdays added yet!'));
+                    }
+                    return BirthdayListScreen(
+                      birthdays: box.values.toList(),
+                      onBirthdayEdited: editBirthday,
+                      onBirthdayRemoved: removeBirthday,
+                    );
+                  },
+                ),
+              ),
+              floatingActionButton: Builder(
+                // Wrap with Builder
+                builder: (context) => FloatingActionButton(
+                  onPressed: () => Navigator.push(
+                    context, // Use context from Builder
+                    MaterialPageRoute(
+                      builder: (context) => AddBirthdayScreen(
+                        onBirthdayAdded: addBirthday,
+                        birthdays: widget.birthdaysBox.values
+                            .toList(), // Pass the birthdays list here
+                      ),
+                    ),
+                  ),
+                  child: const Icon(Icons.add),
                 ),
               ),
             ),
-            child: const Icon(Icons.add),
-          ),
-        ),
-      ),
     );
   }
 

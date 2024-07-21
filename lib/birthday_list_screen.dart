@@ -98,7 +98,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                 ),
               ],
             ),
-          );
+          ));
         },
       ),
     );

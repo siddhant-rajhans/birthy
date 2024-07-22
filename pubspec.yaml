@@ -29,6 +29,6 @@ dev_dependencies:
   assets:
     - assets/
     - assets/images/
-  flutter_test:
-    sdk: flutter
+flutter_test:
+  sdk: flutter
 

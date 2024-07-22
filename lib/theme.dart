@@ -10,5 +10,5 @@ TextStyle appBarTextStyle = GoogleFonts.lobster(
 
 // Add this block below the appBarTextStyle
 iconTheme: IconThemeData(
-  color: Colors.white, // Or any other color you want to test
-),
+  color : Colors.white, // Or any other color you want to test
+)

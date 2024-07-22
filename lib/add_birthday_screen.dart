@@ -38,7 +38,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
       appBar: AppBar(
         title: const Text('Add Birthday'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },

@@ -51,7 +51,8 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
             // Handle scrolling to the new birthday if needed
           }
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add), // Specify the icon here
+        backgroundColor: Colors.pink[300], // Example: Change button color
       ),
       body: ListView.builder(
         itemCount: widget.birthdays.length,

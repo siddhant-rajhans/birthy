@@ -17,10 +17,8 @@ ThemeData appTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
   textTheme: GoogleFonts.nunitoTextTheme(
     ThemeData.light().textTheme,
-  ).apply(
-    fontFamily: 'NotoSans', // Use the font family name you declared in pubspec.yaml
   ),
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
     titleTextStyle: appBarTextStyle,
     iconTheme: IconThemeData(
       color: Colors.white,

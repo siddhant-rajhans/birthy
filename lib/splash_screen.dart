@@ -7,7 +7,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    precacheImage(const AssetImage('images/1.png'), context);
+    precacheImage(const AssetImage('images/3.png'), context);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Center(
@@ -38,7 +38,7 @@ class SplashScreen extends StatelessWidget {
               stops: [0.0, 0.2, 0.8, 1.0], // Adjusted for stronger fade
             ).createShader(bounds),
             blendMode: BlendMode.dstIn,
-            child: Image.asset('images/1.png'),
+            child: Image.asset('images/3.png'),
           ),
         ),
       ),

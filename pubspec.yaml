@@ -23,12 +23,13 @@ dependencies:
   timezone: ^0.9.1
   numberpicker: ^2.1.1
   flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
   assets:
     - assets/
     - assets/images/
     - assets/fonts/
-
-flutter:
   fonts:
     - family: NotoSans # Use the actual font family name from Google Fonts
       fonts:

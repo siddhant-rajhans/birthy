@@ -15,7 +15,11 @@ const TextStyle appBarTextStyle = TextStyle(
 // Create a ThemeData with the custom icon theme
 ThemeData appTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
-  textTheme: GoogleFonts.nunitoTextTheme(),
+  textTheme: GoogleFonts.nunitoTextTheme(
+    ThemeData.light().textTheme,
+  ).apply(
+    fontFamily: 'NotoSans', // Use the font family name you declared in pubspec.yaml
+  ),
   appBarTheme: const AppBarTheme(
     titleTextStyle: appBarTextStyle,
     iconTheme: IconThemeData(

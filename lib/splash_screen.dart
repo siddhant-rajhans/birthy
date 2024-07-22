@@ -8,19 +8,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     super.initState();
-    _cacheImage();
   }
 
-  Future<void> _cacheImage() async {
+  Future<void> _cacheImage(BuildContext context) async {
     final imageProvider = AssetImage('images/3.png');
     await precacheImage(imageProvider, context);
   }
 
   @override
   Widget build(BuildContext context) {
+    _cacheImage(context); // Call _cacheImage here
     return Scaffold(
       backgroundColor: Colors.black, // Set background color to black
       body: Center(

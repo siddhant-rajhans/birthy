@@ -26,7 +26,8 @@ class BirthdayListScreen extends StatefulWidget {
 class _BirthdayListScreenState extends State<BirthdayListScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp( // Wrap the Scaffold with MaterialApp
+      home: Scaffold(
       appBar: AppBar(
         title: const Text('Dates to remind'),
       ),

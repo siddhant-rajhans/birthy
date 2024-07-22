@@ -7,3 +7,8 @@ TextStyle appBarTextStyle = GoogleFonts.lobster(
   fontWeight: FontWeight.bold,
   color: Colors.white,
 );
+
+// Add this block below the appBarTextStyle
+iconTheme: IconThemeData(
+  color: Colors.white, // Or any other color you want to test
+),

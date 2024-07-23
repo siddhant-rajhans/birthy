@@ -35,7 +35,6 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                 onBirthdayAdded: (birthday) {
                   widget.birthdaysBox.add(birthday);
                 },
-                birthdaysBox: widget.birthdaysBox,
               ),
             ),
           );
@@ -100,7 +99,6 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                                 widget.birthdaysBox.put(birthday.key, birthday);
                               },
                               initialBirthday: birthday,
-                              birthdaysBox: widget.birthdaysBox,
                             ),
                           ),
                         );

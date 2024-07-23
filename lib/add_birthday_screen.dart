@@ -73,7 +73,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.pink[300], // Change button color
+                backgroundColor: const Color(0xFFEF5350), // Change button color
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 textStyle: const TextStyle(fontSize: 18),
               ),

@@ -6,14 +6,12 @@ import 'add_birthday_screen.dart';
 import 'birthday_model.dart';
 
 class BirthdayListScreen extends StatefulWidget {
-  final List<Birthday> birthdays;
-  final Function(Birthday, Birthday) onBirthdayEdited;
+  final Box<Birthday> birthdaysBox; // Add this line
   final Function(Birthday) onBirthdayRemoved;
   final Function(Birthday) onBirthdayAdded;
 
   const BirthdayListScreen({
-    required this.birthdays,
-    required this.onBirthdayEdited,
+    required this.birthdaysBox, // Update this line
     required this.onBirthdayRemoved,
     required this.onBirthdayAdded,
     Key? key,
@@ -90,13 +88,10 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                           ),
                         );
                         if (updatedBirthday != null) {
-                          final box = Hive.box<Birthday>('birthdays');
-                          await box.put(updatedBirthday.key, updatedBirthday);
-                          widget.onBirthdayEdited(birthday, updatedBirthday);
+                          await widget.birthdaysBox.put(updatedBirthday.key, updatedBirthday); // Update to use birthdaysBox
                           setState(() {
-                            final birthdayIndex =
-                                widget.birthdays.indexOf(birthday);
-                            widget.birthdays[birthdayIndex] = updatedBirthday;
+                            final birthdayIndex = widget.birthdaysBox.values.toList().indexOf(birthday);
+                            widget.birthdaysBox.values.toList()[birthdayIndex] = updatedBirthday;
                           });
                         }
                       },

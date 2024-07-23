@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 import 'add_birthday_screen.dart';
 import 'birthday_model.dart';
 
 class BirthdayListScreen extends StatefulWidget {
-  final Box<Birthday> birthdaysBox; // Add this line
+  final Box<Birthday> birthdaysBox;
   final Function(Birthday) onBirthdayRemoved;
-  final Function(Birthday) onBirthdayAdded;
 
   const BirthdayListScreen({
-    required this.birthdaysBox, // Update this line
+    required this.birthdaysBox,
     required this.onBirthdayRemoved,
-    required this.onBirthdayAdded,
     Key? key,
   }) : super(key: key);
 
@@ -24,115 +22,98 @@ class BirthdayListScreen extends StatefulWidget {
 class _BirthdayListScreenState extends State<BirthdayListScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( // Wrap the Scaffold with MaterialApp
-      home: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Dates to remind'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final newBirthday = await Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => AddBirthdayScreen(
                 onBirthdayAdded: (birthday) {
                   widget.birthdaysBox.add(birthday);
-                  setState(() {}); // This will rebuild the widget and display the new birthday
                 },
                 birthdaysBox: widget.birthdaysBox,
               ),
             ),
           );
-          if (newBirthday != null) {
-            // Handle scrolling to the new birthday if needed
-          }
+          setState(() {});
         },
-        child: const Icon(Icons.cake), // Specify the icon here
-        backgroundColor: Colors.pink[300], // Example: Change button color
+        child: const Icon(Icons.cake),
+        backgroundColor: Colors.pink[300],
       ),
-      body: ListView.builder(
-        itemCount: widget.birthdaysBox.values.length,
-        itemBuilder: (context, index) {
-          final birthday = widget.birthdaysBox.values.toList()[index];
-          return Card(
-              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              child: ListTile(
-                title: Text(
-                  birthday.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+      body: ValueListenableBuilder<Box<Birthday>>(
+        valueListenable: widget.birthdaysBox.listenable(),
+        builder: (context, box, _) {
+          if (box.isEmpty) {
+            return const Center(
+              child: Text('No birthdays yet.'),
+            );
+          }
+          return ListView.builder(
+            itemCount: box.length,
+            itemBuilder: (context, index) {
+              final birthday = box.getAt(index)!;
+              return Dismissible(
+                key: ValueKey(birthday.id),
+                onDismissed: (direction) {
+                  widget.onBirthdayRemoved(birthday);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${birthday.name}\'s birthday deleted'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                },
+                background: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
                   ),
                 ),
-                subtitle:
-                    Text(DateFormat('MMMM d').format(birthday.dateOfBirth)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
+                child: Card(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: ListTile(
+                    title: Text(
+                      birthday.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(
+                        DateFormat('MMMM d').format(birthday.dateOfBirth)),
+                    trailing: IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () async {
-                        // Navigate to edit screen and update birthday on return
-                        final updatedBirthday = await Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddBirthdayScreen(
+                              onBirthdayAdded: (birthday) {
+                                widget.birthdaysBox.put(birthday.key, birthday);
+                              },
                               initialBirthday: birthday,
-                              birthdays: widget.birthdaysBox, // Pass birthdays here
+                              birthdaysBox: widget.birthdaysBox,
                             ),
                           ),
                         );
-                        if (updatedBirthday != null) {
-                          await widget.birthdaysBox.put(updatedBirthday.key, updatedBirthday); // Update to use birthdaysBox
-                          setState(() {
-                            final birthdayIndex = widget.birthdaysBox.values.toList().indexOf(birthday);
-                            widget.birthdaysBox.values.toList()[birthdayIndex] = updatedBirthday;
-                          });
-                        }
+                        setState(() {});
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Confirm Delete'),
-                            content: Text(
-                                'Are you sure you want to remove ${birthday.name}\'s birthday?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  final box = Hive.box<Birthday>('birthdays');
-                                  box.delete(birthday.key); // Delete from Hive
-                                  widget.onBirthdayRemoved(birthday);
-                                  Navigator.pop(context); // Close the dialog
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Birthday deleted'),
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
-                                  setState(() {
-                                    // widget.birthdays.remove(birthday);
-                                  });
-                                },
-                                child: const Text('Delete'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-              ));
+              );
+            },
+          );
         },
       ),
-    ));
+    );
   }
 }

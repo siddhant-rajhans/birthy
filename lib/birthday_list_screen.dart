@@ -77,7 +77,6 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddBirthdayScreen(
-                              onBirthdayAdded: (birthday) {},
                               initialBirthday: birthday,
                               birthdays: widget.birthdaysBox, // Pass birthdays here
                             ),

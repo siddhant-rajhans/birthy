@@ -3,13 +3,13 @@ class Birthday {
   final DateTime dateOfBirth;
   final int id; // Assuming auto-incrementing ID
 
-  Birthday({required this.name, required this.dateOfBirth, required this.id});
+  Birthday({required this.name, required this.dateOfBirth, int? id}) : this.id = id ?? DateTime.now().millisecondsSinceEpoch;
 
   factory Birthday.fromJson(Map<String, dynamic> json) => Birthday(
     name: json['name'] as String,
     dateOfBirth: DateTime.parse(json['dateOfBirth'] as String),
     id: json['id'] as int, // Assuming 'id' field exists in JSON
-  );
+  ); 
 
   Map<String, dynamic> toJson() => {
     'name': name,

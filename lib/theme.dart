@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 // Define a custom text style for the app bar title
 const TextStyle appBarTextStyle = TextStyle(
   fontFamily: 'Lobster', // Use the font family name directly

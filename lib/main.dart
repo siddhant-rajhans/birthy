@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return BirthdayListScreen(
-              birthdays: birthdaysBox.values.toList(),
+              birthdaysBox: birthdaysBox,
               onBirthdayRemoved: (birthday) {
                 birthdaysBox.delete(birthday.key);
               },

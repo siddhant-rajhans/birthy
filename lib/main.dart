@@ -48,6 +48,8 @@ class MyApp extends StatelessWidget {
               },
               onBirthdayAdded: (birthday) {
                 birthdaysBox.add(birthday);
+                // Force rebuild after adding a birthday
+                setState(() {}); 
               },
             );
           } else {

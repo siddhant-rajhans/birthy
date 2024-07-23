@@ -30,12 +30,6 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
       home: Scaffold(
       appBar: AppBar(
         title: const Text('Dates to remind'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -58,7 +52,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
             // Handle scrolling to the new birthday if needed
           }
         },
-        child: const Icon(Icons.add), // Specify the icon here
+        child: const Icon(Icons.cake), // Specify the icon here
         backgroundColor: Colors.pink[300], // Example: Change button color
       ),
       body: ListView.builder(

@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               },
             );
           } else {
-            return const SplashScreen();
+            return SplashScreen();
           }
         },
       ),

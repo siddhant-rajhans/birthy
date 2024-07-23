@@ -9,10 +9,8 @@ class AddBirthdayScreen extends StatefulWidget {
   final Function(Birthday) onBirthdayAdded;
   final Birthday? initialBirthday; // Can be null for new birthdays
 
-  final List<Birthday> birthdays; // Add this line
-
   const AddBirthdayScreen(
-      {Key? key, required this.onBirthdayAdded, this.initialBirthday, required this.birthdays}) // Add birthdays to the constructor
+      {Key? key, required this.onBirthdayAdded, this.initialBirthday})
       : super(key: key);
 
   @override
@@ -91,8 +89,8 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
     );
   }
 
-  int generateUniqueId(List<Birthday> birthdays) {
-    final existingIds = birthdays.map((birthday) => birthday.id).toSet();
+  int generateUniqueId() {
+    final existingIds = widget.birthdaysBox.values.map((birthday) => birthday.id).toSet();
     var uuid = const Uuid();
     int newId = uuid.v4().hashCode;
     while (existingIds.contains(newId)) {

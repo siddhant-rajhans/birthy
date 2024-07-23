@@ -1,3 +1,4 @@
+import 'package:birthy/birthday_model.dart';
 import 'package:birthy/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,9 +49,9 @@ class MyApp extends StatelessWidget {
               },
               onBirthdayAdded: (birthday) {
                 birthdaysBox.add(birthday);
+                // No need to call setState here as ValueListenableBuilder will rebuild the widget
               },
             );
-            setState(() {}); // Force rebuild after adding a birthday
           } else {
             return const SplashScreen();
           }

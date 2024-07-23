@@ -36,11 +36,8 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
             MaterialPageRoute(
               builder: (context) => AddBirthdayScreen(
                 onBirthdayAdded: (birthday) {
-                  setState(() {
-                    widget.birthdays.add(birthday);
-                  });
-                  // Call the callback to update the list in main.dart
-                  widget.onBirthdayAdded(birthday);
+                  widget.birthdaysBox.add(birthday);
+                  setState(() {}); // This will rebuild the widget and display the new birthday
                 },
                 birthdaysBox: widget.birthdaysBox,
               ),

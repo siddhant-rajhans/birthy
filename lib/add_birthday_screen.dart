@@ -89,13 +89,4 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
     );
   }
 
-  int generateUniqueId() {
-    final existingIds = widget.birthdaysBox.values.map((birthday) => birthday.id).toSet();
-    var uuid = const Uuid();
-    int newId = uuid.v4().hashCode;
-    while (existingIds.contains(newId)) {
-      newId = uuid.v4().hashCode;
-    }
-    return newId;
-  }
 }

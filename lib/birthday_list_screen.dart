@@ -42,7 +42,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                   // Call the callback to update the list in main.dart
                   widget.onBirthdayAdded(birthday);
                 },
-                birthdays: widget.birthdays,
+                birthdaysBox: widget.birthdaysBox,
               ),
             ),
           );
@@ -54,9 +54,9 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
         backgroundColor: Colors.pink[300], // Example: Change button color
       ),
       body: ListView.builder(
-        itemCount: widget.birthdays.length,
+        itemCount: widget.birthdaysBox.values.length,
         itemBuilder: (context, index) {
-          final birthday = widget.birthdays[index];
+          final birthday = widget.birthdaysBox.values.toList()[index];
           return Card(
               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: ListTile(
@@ -83,7 +83,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                               onBirthdayAdded: (birthday) {},
                               initialBirthday: birthday,
                               birthdays:
-                                  widget.birthdays, // Pass birthdays here
+                                  widget.birthdaysBox, // Pass birthdays here
                             ),
                           ),
                         );
@@ -123,7 +123,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
                                     ),
                                   );
                                   setState(() {
-                                    widget.birthdays.remove(birthday);
+                                    // widget.birthdays.remove(birthday);
                                   });
                                 },
                                 child: const Text('Delete'),

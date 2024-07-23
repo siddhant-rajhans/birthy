@@ -2,7 +2,7 @@ name: birthy
 description: Never miss wishing a birthday again!
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -12,6 +12,7 @@ flutter:
 assets:
   - assets/
   - assets/images/
+
 dependencies:
   flutter:
     sdk: flutter
@@ -19,16 +20,17 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   sqflite: ^2.2.0
-  flutter_local_notifications: ^14.1.0
+  flutter_local_notifications: ^17.2.1+2
   cupertino_icons: ^1.0.5
-  uuid: ^3.0.6
+  uuid: ^4.4.2
   timezone: ^0.9.1
   numberpicker: ^2.1.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.3.3
   hive_generator: ^2.0.1
+
 flutter_test:
   sdk: flutter
-

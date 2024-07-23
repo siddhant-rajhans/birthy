@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _cacheImage(BuildContext context) async {
-    final imageProvider = AssetImage('images/3.png');
+    final imageProvider = AssetImage('assets/images/3.png');
     await precacheImage(imageProvider, context);
   }
 
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       
       backgroundColor: Colors.black, // Set background color to black
       body: Center(
-        child: Image.asset('images/3.png'), // Display the image
+        child: Image.asset('assets/images/3.png'), // Display the image
       ),
     );
   }

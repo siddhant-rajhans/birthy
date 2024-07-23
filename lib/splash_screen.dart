@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     _cacheImage(context); // Call _cacheImage here
     return Scaffold(
+      
       backgroundColor: Colors.black, // Set background color to black
       body: Center(
         child: Image.asset('images/3.png'), // Display the image

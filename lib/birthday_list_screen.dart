@@ -8,10 +8,12 @@ import 'birthday_model.dart';
 class BirthdayListScreen extends StatefulWidget {
   final Box<Birthday> birthdaysBox;
   final Function(Birthday) onBirthdayRemoved;
+  final Function(Birthday) onBirthdayAdded;
 
   const BirthdayListScreen({
     required this.birthdaysBox,
     required this.onBirthdayRemoved,
+    required this.onBirthdayAdded,
     Key? key,
   }) : super(key: key);
 
@@ -33,7 +35,7 @@ class _BirthdayListScreenState extends State<BirthdayListScreen> {
             MaterialPageRoute(
               builder: (context) => AddBirthdayScreen(
                 onBirthdayAdded: (birthday) {
-                  widget.birthdaysBox.add(birthday);
+                  widget.onBirthdayAdded(birthday);
                 },
               ),
             ),

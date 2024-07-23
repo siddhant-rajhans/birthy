@@ -46,7 +46,9 @@ class MyApp extends StatelessWidget {
               onBirthdayEdited: (oldBirthday, newBirthday) {
                 birthdaysBox.put(newBirthday.key, newBirthday);
               },
-              onBirthdayRemoved: (birthday) {},
+              onBirthdayRemoved: (birthday) {
+                birthdaysBox.delete(birthday.key);
+              },
               onBirthdayAdded: (birthday) {
                 birthdaysBox.add(birthday);
               },

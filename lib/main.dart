@@ -49,11 +49,6 @@ class MyApp extends StatelessWidget {
               },
               onBirthdayAdded: (birthday) {
                 birthdaysBox.add(birthday);
-              },
-                birthdaysBox.delete(birthday.key);
-              },
-              onBirthdayAdded: (birthday) {
-                birthdaysBox.add(birthday);
                 // No need to call setState here as ValueListenableBuilder will rebuild the widget
               },
             );

@@ -42,7 +42,7 @@ class _AddBirthdayScreenState extends State<AddBirthdayScreen> {
           },
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView( // Wrap Column with SingleChildScrollView
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [

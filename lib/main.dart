@@ -48,16 +48,14 @@ class MyApp extends StatelessWidget {
               },
               onBirthdayAdded: (birthday) {
                 birthdaysBox.add(birthday);
-                // Force rebuild after adding a birthday
-                setState(() {}); 
               },
             );
+            setState(() {}); // Force rebuild after adding a birthday
           } else {
-            return SplashScreen();
+            return const SplashScreen();
           }
         },
       ),
     );
   }
-
 }
